@@ -63,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CellDisplayer.cs" />
-    <Compile Include="Assets\Scripts\CellDisplayerPrefabs.cs" />
+    <Compile Include="Assets\Scripts\CellDisplayerAssets.cs" />
     <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Reference Include="Unity.Timeline.Editor">

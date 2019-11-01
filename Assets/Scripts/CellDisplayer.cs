@@ -14,16 +14,23 @@ public enum CellType
 public class CellDisplayer : MonoBehaviour
 {
     public CellType cellType = CellType.Basic;
-    
-    public GameObject forestPrefab;
-    public GameObject mountainPrefab;
+
+    private CellDisplayerAssets CDA;
 
     private GameObject cellContainer;
+    private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
+        CDA = GetComponentInParent<CellDisplayerAssets>();
+        print(CDA + " d");
 
+        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        cellContainer = (transform.childCount != 0) ? transform.GetChild(0).gameObject : null;
     }
 
     // Update is called once per frame
@@ -31,9 +38,29 @@ public class CellDisplayer : MonoBehaviour
     {
         if (cellContainer) DestroyImmediate(cellContainer);
 
-        if (cellType == CellType.Forest)
-            cellContainer = Instantiate(forestPrefab, transform.position, Quaternion.identity, transform);
-        else if (cellType == CellType.Mountain)
-            cellContainer = Instantiate(mountainPrefab, transform.position, Quaternion.identity, transform);
+        switch(cellType)
+        {
+            case CellType.Basic:
+                meshFilter.mesh = CDA.basicMesh;
+                meshRenderer.material = CDA.basicMaterial;
+                break;
+            case CellType.Forest:
+                meshFilter.mesh = CDA.forestMesh;
+                meshRenderer.material = CDA.forestMaterial;
+
+                cellContainer = Instantiate(CDA.forestPrefab, transform.position, Quaternion.identity, transform);
+                break;
+            case CellType.Mountain:
+                meshFilter.mesh = CDA.mountainMesh;
+                meshRenderer.material = CDA.mountainMaterial;
+
+                cellContainer = Instantiate(CDA.mountainPrefab, transform.position, Quaternion.identity, transform);
+                break;
+            case CellType.Water:
+                meshFilter.mesh = CDA.waterMesh;
+                meshRenderer.material = CDA.waterMaterial;
+                break;
+        }
+            
     }
 }
